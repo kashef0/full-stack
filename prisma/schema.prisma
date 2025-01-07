@@ -15,66 +15,82 @@ datasource db {
 
 
 model User {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email String @unique
-  hash String
+  email     String   @unique
+  hash      String
 
   firstName String?
-  lastName String?
+  lastName  String?
+  role    Role     @default(USER)
+
+  Items     Item[]
+  Profile Profile[]
 
   @@map("users")
-  Items Item[]
 }
 
+model Profile {
+  id     Int @id @default(autoincrement())
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int @unique
+}
 
 model Item {
-  Id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  title String
+  title           String
   itemDescription String?
-  quantity Int
-  price Decimal
-  imageUrl String?
+  quantity        Int
+  price           Decimal @db.Decimal(10, 2)
+  imageUrl        String?
 
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
 
-  categoryId Int 
-  category Category @relation(fields: [categoryId], references: [Id])
+  categoryId      Int
+  category        Category @relation(fields: [categoryId], references: [id])
 
+  Transaction Transaction[]
   @@map("Items")
-
 }
 
 model Category {
-  Id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  name String
+  name        String
   description String?
-  item Item[]
+  items       Item[]
 
   @@map("categories")
 }
 
 model Transaction {
-  Id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  itemId Int @unique
-  itemTitle String
-  price Decimal
-  BeforeQty Int
-  soldQty Int
+  itemId      Int      @unique
+  item        Item     @relation(fields: [itemId], references: [id],  onDelete: Cascade)
+  itemTitle   String
+  price       Decimal  @db.Decimal(10, 2)
+  beforeQty   Int
+  soldQty     Int
 
-  SalerName String
+  salerName   String
 
   @@map("transactions")
+}
+
+
+enum Role {
+  USER
+  ADMIN
 }
