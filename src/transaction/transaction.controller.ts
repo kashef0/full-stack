@@ -11,38 +11,48 @@ import { RolesGuard } from 'src/auth/rolesGuard';
 @Controller('transaction')
 @UseGuards(JwtGuard)
 export class TransactionController {
+    // Injectera TransactionService för att interagera med logiken
     constructor(private transactionService: TransactionService) {}
 
+    // Skapa en ny transaktion
     @Post('create')
     createTransaction(@Body() dto: CreateTransactionDto, @GetUser() req) {
-        return this.transactionService.createTransaction(dto, req);
+    // Anropa tjänsten för att skapa en transaktion och returnera svaret
+    return this.transactionService.createTransaction(dto, req);
     }
 
+    // Hämta alla transaktioner för en användare baserat på användar-ID
     @Get('getTransaction/:id')
     getUserTransactions(@Param('id') userId: number) {
-        return this.transactionService.getUserTransaction(userId);
+    // Anropa tjänsten för att hämta transaktioner för den specifika användaren
+    return this.transactionService.getUserTransaction(userId);
     }
 
+    // Uppdatera en specifik transaktion
     @Patch('update/:id')
-    @UseGuards(RolesGuard)
+    @UseGuards(RolesGuard)  // Skydda denna route med en roles guard admin
     updateTransaction(
-        @Param('id') transactionId: number,
-        @Body() dto: CreateTransactionDto,
-        @GetUser() req: any
+    @Param('id') transactionId: number,  // Transaktions-ID som ska uppdateras
+    @Body() dto: CreateTransactionDto,  // Data för att uppdatera transaktionen
+    @GetUser() req: any  // Hämta användarinformation från requesten
     ) {
-        return this.transactionService.updateTransaction(transactionId, dto, req);
+    // Anropa tjänsten för att uppdatera transaktionen och returnera svaret
+    return this.transactionService.updateTransaction(transactionId, dto, req);
     }
 
+    // Ta bort en specifik transaktion
     @Delete('delete/:id')
-    @UseGuards(RolesGuard)
+    @UseGuards(RolesGuard)  // Skydda denna route med en roles guard
     deleteTransaction(@Param('id') transactionId: number) {
-        return this.transactionService.deleteTransaction(transactionId);
+    // Anropa tjänsten för att ta bort transaktionen och returnera svaret
+    return this.transactionService.deleteTransaction(transactionId);
     }
 
+    // Hämta alla transaktioner (endast för användare med giltig JWT)
     @Get()
-    @UseGuards(JwtGuard)
+    @UseGuards(JwtGuard)  // Skydda denna route med en JWT-guard för autentisering
     getAllTransactions() {
-        return this.transactionService.getAllTransactions();
+    // Anropa tjänsten för att hämta alla transaktioner och returnera svaret
+    return this.transactionService.getAllTransactions();
     }
-
 }

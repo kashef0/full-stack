@@ -26,6 +26,12 @@ export class CategoryController {
         return this.categoryService.deleteCategory(categoryId);
     }
 
+
+    @Get('getCategoryById/:id')
+    getCategoryById(@Param('id') categoryId: number) {
+        return this.categoryService.getCategoryById(categoryId);
+    }
+
     @Get()
     getAllCategories() {
         return this.categoryService.getAllCategories();

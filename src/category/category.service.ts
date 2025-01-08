@@ -90,6 +90,30 @@ export class CategoryService {
         }
     }
     
+    async getCategoryById(categoryId: number) {
+        try {
+            if (!Number(categoryId) || categoryId <= 0) {
+                throw new BadRequestException('Category ID måste vara ett positivt heltal');
+            }
+            // Kontrollera om kategorin existerar
+            const existingCategory = await this.prisma.category.findUnique({
+                where: { id: categoryId },
+            });
+    
+            if (!existingCategory) {
+                throw new NotFoundException(`Kategorin med ID ${categoryId} hittades inte`);
+            }
+
+            const getCategoryById = await this.prisma.category.findUnique({
+                where: {id: categoryId},
+            });
+
+            return getCategoryById;
+        } catch (error) {
+            console.error('Det gick inte att hämta kategorin:', error);
+            throw new InternalServerErrorException('Ett fel uppstod vid hämtning av kategorin');
+        }
+    }
 
     async getAllCategories() {
         return this.prisma.category.findMany();
