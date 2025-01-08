@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { debounceTime } from 'rxjs';
 
 @Injectable()
 export class CategoryService {
@@ -14,6 +15,28 @@ export class CategoryService {
             },
         });
         return category;
+    }
+
+    async updateCategory(dto: CreateCategoryDto, categoryId: number) {
+        const updateCategory = await this.prisma.category.update({
+            where: {
+                id: categoryId,
+            },
+            data: {
+                ...dto
+            },
+        });
+        return updateCategory;
+    }
+    
+    async deleteCategory(categoryId: number) {
+        const deleteCategory = await this.prisma.category.delete({
+            where: {
+                id: categoryId,
+            },
+        });
+
+        return deleteCategory;
     }
 
     async getAllCategories() {

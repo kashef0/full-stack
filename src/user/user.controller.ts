@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Patch,
   UseGuards,
 } from '@nestjs/common';
@@ -29,6 +31,13 @@ export class UserController {
   ) {
     return this.userService.editUser(userId, dto);
   }
+
+  @Delete('delete/:id')
+  @UseGuards(RolesGuard)
+  deleteUser(@Param('id') userId: number) {
+    return this.userService.deleteUser(userId);
+  }
+
 
   @Get('all')
   @UseGuards(JwtGuard, RolesGuard) 

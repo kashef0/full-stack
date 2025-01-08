@@ -1,13 +1,10 @@
 import { Transform } from 'class-transformer';
 import {
-  IS_DECIMAL,
   IsDecimal,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  min,
-  Min,
 } from 'class-validator';
 
 export class CreateItemDto {

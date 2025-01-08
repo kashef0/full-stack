@@ -12,8 +12,6 @@ export class UserService {
     dto: EditUserDto,
   ) {
     try {
-        
-        console.log('DTO Data:', dto);
         const user = await this.prisma.user.update({
           where: {
             id: userId.id,
@@ -30,6 +28,15 @@ export class UserService {
         throw new InternalServerErrorException('Failed to update user');
     }
 
+  }
+
+  async deleteUser(userId: number) {
+    const deleteUser = await this.prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
+    return deleteUser;
   }
 
   async getAllUsers() {

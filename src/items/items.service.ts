@@ -22,7 +22,7 @@ export class ItemsService {
     }
 
 
-    async updateItemQuantity(itemId: number, quantity: number, title: string, itemDescription: string) {
+    async updateItem(itemId: number, quantity: number, title: string, itemDescription: string) {
         const updateItem = await this.prisma.item.update({
             where: {
                 id: itemId,
@@ -36,6 +36,14 @@ export class ItemsService {
         return updateItem;
     }
 
+    async deleteItem(itemId: number) {
+        const deleteItem = await this.prisma.item.delete({
+            where: {
+                id: itemId,
+            },
+        });
+        return deleteItem
+    }
 
     getAllItems() {
         return this.prisma.item.findMany();
