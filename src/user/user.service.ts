@@ -8,7 +8,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async editUser(
-    userId: number,
+    userId: any,
     dto: EditUserDto,
   ) {
     try {
@@ -16,7 +16,7 @@ export class UserService {
         console.log('DTO Data:', dto);
         const user = await this.prisma.user.update({
           where: {
-            id: userId,
+            id: userId.id,
           },
           data: {
             ...dto
@@ -27,7 +27,7 @@ export class UserService {
         return user;
     } catch (error){
         console.error('Error updating user:', error);
-    throw new InternalServerErrorException('Failed to update user');
+        throw new InternalServerErrorException('Failed to update user');
     }
 
   }

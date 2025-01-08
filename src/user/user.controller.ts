@@ -24,7 +24,7 @@ export class UserController {
   @Patch('update')
   @UseGuards(RolesGuard)
   editUser(
-    @GetUser('id') userId: number,
+    @GetUser() userId,
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editUser(userId, dto);
