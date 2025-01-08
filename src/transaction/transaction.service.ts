@@ -36,6 +36,7 @@ export class TransactionService {
             beforeQty: item.quantity,
             soldQty,
             salerName,
+            
         },
     });
     await this.prisma.item.update({
