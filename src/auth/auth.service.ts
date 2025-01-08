@@ -28,11 +28,13 @@ export class AuthService {
         data: {
           email: dto.email,
           hash,
+          firstName: dto.firstName,
+          lastName: dto.lastName,
           role: dto.role,
         },
       });
       // return sparade data
-      return this.signToken(user.id, user.email);
+      return this.signToken(user.id, user.email, user.role, user?.firstName, user?.lastName);
     } catch (error) {
       if (
         error instanceof
@@ -79,20 +81,22 @@ export class AuthService {
       );
     }
     // om allt bra skickar tillbacka anv'ndaren
-    return this.signToken(user.id, user.email);
+    return this.signToken(user.id, user.email, user.role, user.firstName, user.lastName);
   }
   async signToken(
-    userId: number,
-    email: string,
+userId: number, email: string, role: string, firstName: string, lastName: string,
   ): Promise<{ access_token: string }> {
     const data = {
       sub: userId,
       email,
+      role,
+      firstName,
+      lastName,
     };
     const secret = this.config.get('JWT_SECRET');
 
     const token = await this.jwt.signAsync(data, {
-      expiresIn: '15m',
+      expiresIn: '15h',
       secret: secret,
     });
     return {

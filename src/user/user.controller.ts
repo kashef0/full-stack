@@ -10,6 +10,7 @@ import { GetUser } from 'src/auth/decorator/get-user.decorator';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { EditUserDto } from './dto/edit.user.dto';
 import { UserService } from './user.service';
+import { RolesGuard } from 'src/auth/rolesGuard';
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -20,11 +21,18 @@ export class UserController {
     return user;
   }
 
-  @Patch()
+  @Patch('update')
+  @UseGuards(RolesGuard)
   editUser(
     @GetUser('id') userId: number,
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editUser(userId, dto);
   }
+
+  @Get('all')
+  @UseGuards(JwtGuard, RolesGuard) 
+  getAllUsers() {
+        return this.userService.getAllUsers();
+    }
 }

@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import {
   ExtractJwt,
@@ -28,6 +27,9 @@ export class JwtStrategy extends PassportStrategy(
             id: payload.sub
         },
     });
+    if (!user) {
+      throw new ForbiddenException('User not found');
+    }
     delete user.hash
 
      return user;

@@ -77,14 +77,14 @@ model Transaction {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  itemId      Int      @unique
+  itemId      Int      
   item        Item     @relation(fields: [itemId], references: [id],  onDelete: Cascade)
   itemTitle   String
   price       Decimal  @db.Decimal(10, 2)
   beforeQty   Int
   soldQty     Int
 
-  salerName   String
+  salerName   String?
 
   @@map("transactions")
 }

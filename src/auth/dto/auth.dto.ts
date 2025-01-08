@@ -10,6 +10,14 @@ export class AuthDto {
     @IsNotEmpty()
     password: string;
 
+    @IsString()
+    @IsOptional()
+    firstName: string
+
+    @IsString()
+    @IsOptional()
+    lastName: string
+
     @IsOptional()
     @IsEnum(Role, { message: 'Role must be either USER or ADMIN' })
     role?: Role;
