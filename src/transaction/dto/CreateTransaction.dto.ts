@@ -1,5 +1,6 @@
 import { Transform } from "class-transformer";
-import { IsDecimal, IsInt, IsNegative, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsDecimal, IsInt, IsNegative, IsNotEmpty, IsOptional, IsPositive, IsString, Min } from "class-validator";
+import { IsValidPrice } from "src/validator/is-valid-price.validator";
 
 export class CreateTransactionDto {
     @IsInt()
@@ -8,15 +9,16 @@ export class CreateTransactionDto {
     @IsString()
     itemTitle: string;
   
-    @IsDecimal()
-    @Transform(({ value }) => value.toString())
     @IsNotEmpty()
-    price: string;
+    @IsValidPrice({ message: 'Priset måste vara en giltig decimal med högst två decimaler och större än eller lika med noll' })
+    price: number;
   
 
   
     @IsInt()
     @IsNotEmpty()
+    @IsPositive()
+    @Min(0)
     soldQty: number;
   
     @IsString()

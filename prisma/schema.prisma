@@ -30,6 +30,7 @@ model User {
   Profile Profile[]
 
   @@map("users")
+  Transaction Transaction[]
 }
 
 model Profile {
@@ -76,7 +77,8 @@ model Transaction {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
   itemId      Int      
   item        Item     @relation(fields: [itemId], references: [id],  onDelete: Cascade)
   itemTitle   String
@@ -85,6 +87,7 @@ model Transaction {
   soldQty     Int
 
   salerName   String?
+
 
   @@map("transactions")
 }

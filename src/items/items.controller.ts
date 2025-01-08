@@ -16,17 +16,22 @@ export class ItemsController {
         return this.itemsService.createItem(dto, user.id);
     }
 
-    @Patch('quantity/:id')
+    @Patch('update/:id')
     @UseGuards(RolesGuard)
-    updateQuantity(@Param('id') itemId: number, @Body() body: {quantity: number, title: string, itemDescription: string}) {
-        const {quantity, title, itemDescription} = body;
-        return this.itemsService.updateItem(itemId, quantity, title, itemDescription);
+    updateQuantity(@Param('id') itemId: number, @Body() dto: CreateItemDto) {
+        // const {quantity, title, itemDescription} = body;
+        return this.itemsService.updateItem(itemId, dto);
     }
 
     @Delete('delete/:id')
     @UseGuards(RolesGuard)
     deleteItem(@Param('id') itemId: number) {
         return this.itemsService.deleteItem(itemId);
+    }
+
+    @Get('getItem/:id')
+    getItem(@Param('id') itemId: number) {
+
     }
 
     @Get()
