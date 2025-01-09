@@ -34,7 +34,15 @@ export class AuthService {
         },
       });
       // return sparade data
-      return this.signToken(user.id, user.email, user.role, user?.firstName, user?.lastName);
+      const token = await this.signToken(user.id, user.email, user.role, user.firstName, user.lastName);
+
+    // Return token and user details
+    return {
+      access_token: token.access_token,
+      role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
     } catch (error) {
       if (
         error instanceof
@@ -81,11 +89,19 @@ export class AuthService {
       );
     }
     // om allt bra skickar tillbacka anv'ndaren
-    return this.signToken(user.id, user.email, user.role, user.firstName, user.lastName);
+    const token = await this.signToken(user.id, user.email, user.role, user.firstName, user.lastName);
+
+  // Return token and user details
+  return {
+    access_token: token.access_token,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
+  };
   }
   async signToken(
-userId: number, email: string, role: string, firstName: string, lastName: string,
-  ): Promise<{ access_token: string }> {
+    userId: number, email: string, role: string, firstName: string, lastName: string,
+    ): Promise<{ access_token: string }> {
     const data = {
       sub: userId,
       email,
