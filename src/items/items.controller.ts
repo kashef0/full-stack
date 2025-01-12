@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guard';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/createItem.dto';
@@ -16,7 +16,7 @@ export class ItemsController {
         return this.itemsService.createItem(dto, user.id);
     }
 
-    @Patch('update/:id')
+    @Put('update/:id')
     @UseGuards(RolesGuard)
     updateQuantity(@Param('id') itemId: number, @Body() dto: CreateItemDto) {
         // const {quantity, title, itemDescription} = body;
