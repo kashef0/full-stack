@@ -94,6 +94,7 @@ export class AuthService {
   // Return token and user details
   return {
     access_token: token.access_token,
+    user: user.id,
     role: user.role,
     firstName: user.firstName,
     lastName: user.lastName,
