@@ -14,7 +14,7 @@ export class CategoryController {
         return this.categoryService.createCategory(dto);
     }
 
-    @Patch('update/:id')
+    @Put('update/:id')
     updateCategory(
         @Param('id') categoryId: number,
         @Body() dto: CreateCategoryDto) {
