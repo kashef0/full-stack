@@ -37,3 +37,7 @@ export class CategoryController {
         return this.categoryService.getAllCategories();
     }
 }
+function Put(arg0: string): (target: (categoryId: number, dto: CreateCategoryDto) => Promise<any>, context: ClassMethodDecoratorContext<CategoryController, (categoryId: number, dto: CreateCategoryDto) => Promise<any>> & { ...; }) => void | ((categoryId: number, dto: CreateCategoryDto) => Promise<any>) {
+    throw new Error('Function not implemented.');
+}
+
