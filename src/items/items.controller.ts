@@ -31,7 +31,7 @@ export class ItemsController {
 
     @Get('getItem/:id')
     getItem(@Param('id') itemId: number) {
-
+        return this.itemsService.getItem(itemId);
     }
 
     @Get()

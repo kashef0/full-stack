@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post,  Put,  UseGuards } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/guard';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -15,6 +15,7 @@ export class CategoryController {
     }
 
     @Put('update/:id')
+    @UseGuards(RolesGuard)
     updateCategory(
         @Param('id') categoryId: number,
         @Body() dto: CreateCategoryDto) {
@@ -37,7 +38,5 @@ export class CategoryController {
         return this.categoryService.getAllCategories();
     }
 }
-function Put(arg0: string): (target: (categoryId: number, dto: CreateCategoryDto) => Promise<any>, context: ClassMethodDecoratorContext<CategoryController, (categoryId: number, dto: CreateCategoryDto) => Promise<any>> & { ...; }) => void | ((categoryId: number, dto: CreateCategoryDto) => Promise<any>) {
-    throw new Error('Function not implemented.');
-}
+
 

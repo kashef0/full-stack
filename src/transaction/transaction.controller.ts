@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDto } from './dto';
 import { JwtGuard } from 'src/auth/guard';
@@ -29,7 +29,7 @@ export class TransactionController {
     }
 
     // Uppdatera en specifik transaktion
-    @Patch('update/:id')
+    @Put('update/:id')
     @UseGuards(RolesGuard)  // Skydda denna route med en roles guard admin
     updateTransaction(
     @Param('id') transactionId: number,  // Transaktions-ID som ska uppdateras
