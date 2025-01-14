@@ -5,7 +5,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { RolesGuard } from 'src/auth/rolesGuard';
 
 @Controller('category')
-@UseGuards(JwtGuard, RolesGuard)
+@UseGuards(JwtGuard)
 export class CategoryController {
     constructor(private categoryService: CategoryService) {}
 
@@ -23,6 +23,7 @@ export class CategoryController {
     }
 
     @Delete('delete/:id')
+    @UseGuards(RolesGuard)
     deleteCategory(@Param('id') categoryId: number) {
         return this.categoryService.deleteCategory(categoryId);
     }
