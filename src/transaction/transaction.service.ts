@@ -114,11 +114,16 @@ export class TransactionService {
       const userTransaction =
         await this.prisma.transaction.findMany({
           where: {
-            item: {
-              userId: userId,
-            },
+            userId: userId,
           },
         });
+      // Om inga transaktioner finns, returnera en tom array
+      if (userTransaction.length === 0) {
+        console.log(
+          `No transactions found for user ${userId}`,
+        );
+        return []; // Returning an empty array if no transactions exist
+      }
 
       // Returnera de hittade transaktionerna
       return userTransaction;
@@ -128,6 +133,7 @@ export class TransactionService {
         'Det gick inte att hämta transaktionen:',
         error,
       );
+      throw new Error('Det gick inte att hämta transaktionerna.'); 
     }
   }
 
